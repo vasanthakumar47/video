@@ -24,7 +24,6 @@ def on_leave(data):
 
 @socketio.on("signal")
 def on_signal(data):
-    # data: {room, to (optional), type, payload}
     room = data.get("room")
     to_sid = data.get("to")
     if to_sid:
@@ -32,6 +31,11 @@ def on_signal(data):
     else:
         emit("signal", {"from": request.sid, **data}, to=room, include_self=False)
 
+@socketio.on("chat")
+def on_chat(data):
+    room = data.get("room")
+    emit("chat", {"from": request.sid, "message": data.get("message")}, to=room, include_self=False)
+
+
 if __name__ == "__main__":
-    # For local dev; in prod use gunicorn/eventlet and HTTPS
-    socketio.run(app, host="0.0.0.0", port=8080)
+    socketio.run(app, host="0.0.0.0", port=5000)

@@ -6,73 +6,151 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
   <style>
-    body { font-family: system-ui, Arial; margin: 0; background: #222; color: white; }
+    body { 
+      font-family: system-ui, Arial; 
+      margin: 0; 
+      background: #222; 
+      color: white; 
+      overflow: hidden; 
+    }
     
-    /* Join Area */
+    /* === 1. Join Area === */
     #join-area {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      flex-direction: column;
-      gap: 15px;
+      display: flex; justify-content: center; align-items: center;
+      height: 100vh; flex-direction: column; gap: 15px;
     }
     #join-area input { padding: 10px 14px; font-size: 16px; border-radius: 8px; border: none; }
     #join-area button { padding: 10px 14px; font-size: 16px; border-radius: 8px; border: none; background: #0a84ff; color: white; cursor: pointer; }
-
-    /* Call Area */
     .hidden { display: none !important; }
+
+    /* === 2. Call Area === */
     #video-container {
-      position: relative;
-      width: 100vw;
-      height: 100vh;
-      background: #111;
+      position: relative; width: 100vw; height: 100vh; background: #111;
     }
-    #remote {
-      width: 100%;
-      height: 100%;
-      object-fit: cover; /* Fills the screen */
-    }
+    #remote { width: 100%; height: 100%; object-fit: cover; }
     #local {
-      position: absolute;
-      bottom: 20px;
-      right: 20px;
-      width: 20%; /* Small Picture-in-Picture */
-      max-width: 250px;
-      aspect-ratio: 16/9;
-      border: 2px solid white;
-      border-radius: 8px;
-      background: #333;
+      position: absolute; bottom: 20px; right: 20px;
+      width: 20%; max-width: 250px; aspect-ratio: 16/9;
+      border: 2px solid white; border-radius: 8px;
+      background: #333; cursor: grab; z-index: 10;
     }
     
-    /* Controls */
+    /* === 3. Controls === */
     #controls-bar {
-      position: absolute;
-      bottom: 30px;
-      left: 50%;
-      transform: translateX(-50%);
-      background: rgba(0, 0, 0, 0.5);
-      padding: 15px;
-      border-radius: 20px;
-      display: flex;
-      gap: 20px;
+      position: absolute; bottom: 30px; left: 50%;
+      transform: translateX(-50%); background: rgba(0, 0, 0, 0.5);
+      padding: 15px; border-radius: 20px; display: flex; gap: 20px; z-index: 20;
     }
     #controls-bar button {
-      /* UPDATED: Font size is now for the icon */
-      font-size: 20px; 
-      background: rgba(255, 255, 255, 0.2);
-      color: white;
-      border: none;
-      border-radius: 50%;
-      width: 50px;
-      height: 50px;
-      cursor: pointer;
-      display: flex;
-      justify-content: center;
-      align-items: center;
+      font-size: 20px; background: rgba(255, 255, 255, 0.2);
+      color: white; border: none; border-radius: 50%;
+      width: 50px; height: 50px; cursor: pointer;
+      display: flex; justify-content: center; align-items: center;
     }
-    #controls-bar button.hang-up {
-      background: #ff3b30; /* Red for hang up */
+    #controls-bar button.hang-up { background: #ff3b30; }
+
+    /* === 4. Settings Menu === */
+    #settings-menu {
+      position: absolute; top: 50%; left: 50%;
+      transform: translate(-50%, -50%); background: #333;
+      padding: 20px; border-radius: 12px; z-index: 30;
+      display: flex; flex-direction: column; gap: 15px;
+    }
+    #settings-menu h3 { margin: 0 0 10px 0; }
+    #settings-menu label { font-size: 14px; }
+    #settings-menu select { width: 100%; padding: 8px; border-radius: 6px; border: none; }
+    #settings-menu button {
+      margin-top: 10px; padding: 8px 12px; border-radius: 6px; 
+      border: none; background: #0a84ff; color: white; cursor: pointer;
+    }
+
+    /* === 5. Chat Styles === */
+    #chat-container {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      width: 300px;
+      max-width: 40%;
+      max-height: 50%;
+      background: rgba(0, 0, 0, 0.6);
+      border-radius: 10px;
+      display: flex;
+      flex-direction: column; /* Input on top, messages below */
+      z-index: 15;
+    }
+    
+    #chat-close-btn {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      background: none;
+      border: none;
+      color: #aaa;
+      cursor: pointer;
+      font-size: 16px;
+      padding: 0;
+      line-height: 1;
+      z-index: 5;
+    }
+    
+    #chat-input-area {
+      display: flex;
+      border-bottom: 1px solid #555; 
+      padding-right: 30px; /* Space for close button */
+    }
+    #chat-input {
+      flex-grow: 1;
+      background: transparent;
+      border: none;
+      color: white;
+      padding: 12px;
+      outline: none;
+    }
+    #chat-send-btn {
+      background: transparent;
+      border: none;
+      color: #0a84ff;
+      padding: 12px;
+      cursor: pointer;
+      font-size: 18px;
+    }
+
+    #messages-list {
+      flex-grow: 1;
+      padding: 15px;
+      overflow-y: auto; /* This makes it scrollable */
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    #messages-list p {
+      margin: 0; padding: 8px 12px; border-radius: 8px;
+      width: fit-content; max-width: 90%; word-wrap: break-word;
+    }
+    #messages-list p.me {
+      background: #0a84ff; color: white; align-self: flex-end;
+    }
+    #messages-list p.peer {
+      background: #3e3e40; color: white; align-self: flex-start;
+    }
+
+    /* === 6. Responsive for Phone === */
+    @media (max-width: 768px) {
+      #local {
+        width: 35%; max-width: 150px; bottom: 80px; /* Make space for controls */ right: 15px;
+      }
+      #controls-bar {
+        bottom: 15px; gap: 10px; padding: 10px;
+      }
+      #controls-bar button {
+        width: 45px; height: 45px; font-size: 18px;
+      }
+      #settings-menu { width: 80%; }
+      
+      #chat-container {
+        width: 90%; max-width: none; left: 50%;
+        transform: translateX(-50%); top: 15px; max-height: 40%;
+      }
     }
   </style>
 </head>
@@ -88,10 +166,39 @@
     <video id="remote" autoplay playsinline></video>
     <video id="local" autoplay playsinline muted></video>
 
+    <div id="chat-container" class="hidden"> <button id="chat-close-btn"><i class="bi bi-x-lg"></i></button>
+
+      <div id="chat-input-area">
+        <input id="chat-input" placeholder="Type a message..." />
+        <button id="chat-send-btn"><i class="bi bi-send-fill"></i></button>
+      </div>
+
+      <div id="messages-list">
+        </div>
+    </div>
+
+
     <div id="controls-bar">
       <button id="toggle-mic"><i class="bi bi-mic-fill"></i></button>
       <button id="toggle-cam"><i class="bi bi-camera-video-fill"></i></button>
+      
+      <button id="toggle-chat-btn"><i class="bi bi-chat-dots-fill"></i></button>
+      
+      <button id="settings-btn"><i class="bi bi-gear-fill"></i></button>
       <button id="hang-up" class="hang-up"><i class="bi bi-telephone-fill"></i></button>
+    </div>
+
+    <div id="settings-menu" class="hidden">
+      <h3>Settings</h3>
+      <div>
+        <label for="audio-devices">Microphone:</label>
+        <select id="audio-devices"></select>
+      </div>
+      <div>
+        <label for="video-devices">Camera:</label>
+        <select id="video-devices"></select>
+      </div>
+      <button id="settings-close-btn">Close</button>
     </div>
   </div>
 
@@ -100,36 +207,99 @@
   <script>
     const socket = io();
 
-    // Get UI elements
+    // === 1. Get UI elements ===
     const joinArea = document.getElementById("join-area");
     const roomInput = document.getElementById("room");
     const joinBtn = document.getElementById("join");
-    
     const videoContainer = document.getElementById("video-container");
     const localVideo = document.getElementById("local");
     const remoteVideo = document.getElementById("remote");
-    
     const toggleMicBtn = document.getElementById("toggle-mic");
     const toggleCamBtn = document.getElementById("toggle-cam");
     const hangUpBtn = document.getElementById("hang-up");
+    const settingsBtn = document.getElementById("settings-btn");
+    const settingsMenu = document.getElementById("settings-menu");
+    const audioSelect = document.getElementById("audio-devices");
+    const videoSelect = document.getElementById("video-devices");
+    const settingsCloseBtn = document.getElementById("settings-close-btn");
 
+    // Chat elements
+    const chatContainer = document.getElementById("chat-container"); 
+    const messagesList = document.getElementById("messages-list");
+    const chatInput = document.getElementById("chat-input");
+    const chatSendBtn = document.getElementById("chat-send-btn");
+    const toggleChatBtn = document.getElementById("toggle-chat-btn"); 
+    const chatCloseBtn = document.getElementById("chat-close-btn"); 
+    
     let pc, localStream, roomId;
-
     const iceServers = {
       iceServers: [
         { urls: "stun:stun.l.google.com:19302" },
       ]
     };
 
-    async function initMedia() {
-      if (!localStream) {
-        try {
-          localStream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
-          localVideo.srcObject = localStream;
-        } catch (err) {
-          console.error("Error getting media:", err);
-          alert("Could not access camera or mic. Please check permissions.");
+    // === 2. Core WebRTC Functions ===
+    
+    async function initMedia(audioDeviceId, videoDeviceId) {
+      if (localStream) {
+        localStream.getTracks().forEach(track => track.stop());
+      }
+      const constraints = {
+        audio: { deviceId: audioDeviceId ? { exact: audioDeviceId } : undefined },
+        video: { deviceId: videoDeviceId ? { exact: videoDeviceId } : undefined }
+      };
+      try {
+        localStream = await navigator.mediaDevices.getUserMedia(constraints);
+        localVideo.srcObject = localStream;
+        await getDevices();
+      } catch (err) {
+        console.error("Error getting media:", err);
+        alert("Could not access camera or mic.");
+      }
+    }
+    
+    async function getDevices() {
+      audioSelect.innerHTML = "";
+      videoSelect.innerHTML = "";
+      const devices = await navigator.mediaDevices.enumerateDevices();
+      const currentAudioId = localStream.getAudioTracks()[0]?.getSettings().deviceId;
+      const currentVideoId = localStream.getVideoTracks()[0]?.getSettings().deviceId;
+      devices.forEach(device => {
+        const option = document.createElement("option");
+        option.value = device.deviceId;
+        option.text = device.label || `Device ${device.deviceId.substring(0, 6)}`;
+        if (device.kind === 'audioinput') {
+          option.selected = (device.deviceId === currentAudioId);
+          audioSelect.appendChild(option);
+        } else if (device.kind === 'videoinput') {
+          option.selected = (device.deviceId === currentVideoId);
+          videoSelect.appendChild(option);
         }
+      });
+    }
+
+    async function switchMediaTrack(kind, deviceId) {
+      let newStream;
+      try {
+        if(kind === 'audio'){
+          newStream = await navigator.mediaDevices.getUserMedia({ audio: { deviceId: { exact: deviceId } } });
+          const newTrack = newStream.getAudioTracks()[0];
+          localStream.removeTrack(localStream.getAudioTracks()[0]);
+          localStream.addTrack(newTrack);
+          const sender = pc.getSenders().find(s => s.track.kind === 'audio');
+          sender.replaceTrack(newTrack);
+        } 
+        else if (kind === 'video'){
+          newStream = await navigator.mediaDevices.getUserMedia({ video: { deviceId: { exact: deviceId } } });
+          const newTrack = newStream.getVideoTracks()[0];
+          localStream.removeTrack(localStream.getVideoTracks()[0]);
+          localStream.addTrack(newTrack);
+          localVideo.srcObject = localStream;
+          const sender = pc.getSenders().find(s => s.track.kind === 'video');
+          sender.replaceTrack(newTrack);
+        }
+      } catch(err) {
+        console.error("Error switching track:", err);
       }
     }
 
@@ -141,7 +311,6 @@
           socket.emit("signal", { room: roomId, type: "candidate", payload: e.candidate });
         }
       };
-      // Add local tracks to the peer connection
       localStream.getTracks().forEach(track => pc.addTrack(track, localStream));
     }
 
@@ -157,79 +326,78 @@
         remoteVideo.srcObject.getTracks().forEach(t => t.stop());
         remoteVideo.srcObject = null;
       }
+      if (localStream) {
+        localStream.getTracks().forEach(t => t.stop());
+        localVideo.srcObject = null;
+        localStream = null;
+      }
+      messagesList.innerHTML = "";
+      chatContainer.classList.add("hidden"); // Hide chat on hangup
     }
 
-    // --- SocketIO Listeners ---
-
+    // === 3. SocketIO Listeners ===
+    
     socket.on("peer-joined", async ({ sid }) => {
       console.log("Peer joined, I am the caller.");
-      await initMedia();
       if (!pc) createPeer();
       await makeOffer();
     });
 
     socket.on("peer-left", () => {
       console.log("Peer left.");
-      cleanup(); // Clean up remote video and peer connection
+      if (pc) { pc.close(); pc = null; }
+      if (remoteVideo.srcObject) {
+        remoteVideo.srcObject.getTracks().forEach(t => t.stop());
+        remoteVideo.srcObject = null;
+      }
     });
 
     socket.on("signal", async ({ from, type, payload }) => {
-      await initMedia();
       if (!pc) createPeer();
-
       if (type === "offer") {
         console.log("Received offer");
         await pc.setRemoteDescription(new RTCSessionDescription(payload));
         const answer = await pc.createAnswer();
         await pc.setLocalDescription(answer);
         socket.emit("signal", { room: roomId, to: from, type: "answer", payload: answer });
-
       } else if (type === "answer") {
         console.log("Received answer");
         await pc.setRemoteDescription(new RTCSessionDescription(payload));
-
       } else if (type === "candidate") {
         try {
           await pc.addIceCandidate(new RTCIceCandidate(payload));
         } catch (err) { console.error("ICE add error", err); }
       }
     });
+    
+    socket.on("chat", ({ from, message }) => {
+      chatContainer.classList.remove("hidden");
+      const p = document.createElement("p");
+      p.innerText = message;
+      p.className = "peer"; 
+      messagesList.appendChild(p);
+      messagesList.scrollTop = messagesList.scrollHeight;
+    });
 
-    // --- Button Click Handlers ---
 
+    // === 4. Button Click Handlers ===
+    
     joinBtn.onclick = async () => {
       roomId = roomInput.value.trim();
       if (!roomId) return alert("Enter a Room ID");
-      
-      await initMedia(); // Get media BEFORE creating peer
-      if (!localStream) return; // Stop if user denied media
-      
+      await initMedia(); 
+      if (!localStream) return; 
       createPeer();
       socket.emit("join", { room: roomId });
-      
-      // Update UI
       joinArea.classList.add("hidden");
       videoContainer.classList.remove("hidden");
     };
 
     hangUpBtn.onclick = () => {
       socket.emit("leave", { room: roomId });
-      cleanup(); // Clean up remote
-      
-      // Clean up local
-      if (localStream) {
-        localStream.getTracks().forEach(t => t.stop());
-        localVideo.srcObject = null;
-        localStream = null;
-      }
-      
-      // Update UI
+      cleanup(); 
       videoContainer.classList.add("hidden");
       joinArea.classList.remove("hidden");
-      roomInput.disabled = false;
-      joinBtn.disabled = false;
-      
-      // UPDATED: Reset icons on hangup
       toggleMicBtn.innerHTML = '<i class="bi bi-mic-fill"></i>';
       toggleCamBtn.innerHTML = '<i class="bi bi-camera-video-fill"></i>';
     };
@@ -238,7 +406,6 @@
       const audioTrack = localStream.getAudioTracks()[0];
       if (audioTrack) {
         audioTrack.enabled = !audioTrack.enabled;
-        // UPDATED: Change icon class
         toggleMicBtn.innerHTML = audioTrack.enabled 
           ? '<i class="bi bi-mic-fill"></i>' 
           : '<i class="bi bi-mic-mute-fill"></i>';
@@ -246,16 +413,93 @@
     };
 
     toggleCamBtn.onclick = () => {
-      const videoTrack = localStream.getVideoTracks()[0];
+      const videoTrack = localStream.getTracks().find(t => t.kind === 'video');
       if (videoTrack) {
         videoTrack.enabled = !videoTrack.enabled;
-        // UPDATED: Change icon class
         toggleCamBtn.innerHTML = videoTrack.enabled 
           ? '<i class="bi bi-camera-video-fill"></i>' 
           : '<i class="bi bi-camera-video-off-fill"></i>';
       }
     };
 
+    // Settings handlers
+    settingsBtn.onclick = () => { settingsMenu.classList.toggle("hidden"); };
+    settingsCloseBtn.onclick = () => { settingsMenu.classList.add("hidden"); };
+    audioSelect.onchange = () => { switchMediaTrack('audio', audioSelect.value); };
+    videoSelect.onchange = () => { switchMediaTrack('video', videoSelect.value); };
+
+    // Chat handlers
+    toggleChatBtn.onclick = () => {
+      chatContainer.classList.toggle("hidden");
+    };
+    chatCloseBtn.onclick = () => {
+      chatContainer.classList.add("hidden");
+    };
+
+    function sendChatMessage() {
+      const message = chatInput.value.trim();
+      if (message === "") return; 
+      chatContainer.classList.remove("hidden");
+      socket.emit("chat", { room: roomId, message: message });
+      const p = document.createElement("p");
+      p.innerText = message;
+      p.className = "me"; 
+      messagesList.appendChild(p);
+      messagesList.scrollTop = messagesList.scrollHeight;
+      chatInput.value = "";
+    }
+    
+    chatSendBtn.onclick = sendChatMessage;
+    chatInput.onkeydown = (e) => {
+      if (e.key === "Enter") {
+        e.preventDefault(); 
+        sendChatMessage();
+      }
+    };
+    
+    // === 5. Draggable Video Code ===
+    makeElementDraggable(localVideo);
+    function makeElementDraggable(elmnt) {
+      let isDragging = false, currentX, currentY, initialX, initialY;
+      elmnt.addEventListener("mousedown", dragStart);
+      document.addEventListener("mouseup", dragEnd);
+      document.addEventListener("mousemove", drag);
+      elmnt.addEventListener("touchstart", dragStart, { passive: false });
+      document.addEventListener("touchend", dragEnd);
+      document.addEventListener("touchmove", drag, { passive: false });
+      function dragStart(e) {
+        e.preventDefault();
+        if (e.type === "touchstart") {
+          initialX = e.touches[0].clientX; initialY = e.touches[0].clientY;
+        } else {
+          initialX = e.clientX; initialY = e.clientY;
+        }
+        const rect = elmnt.getBoundingClientRect();
+        currentX = rect.left; currentY = rect.top;
+        isDragging = true;
+        elmnt.style.cursor = "grabbing";
+        elmnt.style.bottom = "auto"; elmnt.style.right = "auto";
+      }
+      function drag(e) {
+        if (!isDragging) return;
+        e.preventDefault();
+        let newX, newY;
+        if (e.type === "touchmove") {
+          newX = e.touches[0].clientX - initialX; newY = e.touches[0].clientY - initialY;
+        } else {
+          newX = e.clientX - initialX; newY = e.clientY - initialY;
+        }
+        let finalX = currentX + newX; let finalY = currentY + newY;
+        const container = videoContainer.getBoundingClientRect();
+        finalX = Math.max(0, Math.min(finalX, container.width - elmnt.offsetWidth));
+        finalY = Math.max(0, Math.min(finalY, container.height - elmnt.offsetHeight));
+        elmnt.style.left = finalX + "px"; elmnt.style.top = finalY + "px";
+      }
+      function dragEnd() {
+        isDragging = false; elmnt.style.cursor = "grab";
+      }
+    }
+    
   </script>
 </body>
 </html>
