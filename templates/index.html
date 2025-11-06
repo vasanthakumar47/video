@@ -13,7 +13,12 @@
       color: white; 
       overflow: hidden; 
       width: 100vw;
-      height: 100vh;
+      /*
+       *
+       * ===> THE FIX IS HERE <===
+       *
+       */
+      height: 100dvh; /* Was 100vh, changed to Dynamic Viewport Height */
     }
     
     .hidden { display: none !important; }
@@ -39,7 +44,7 @@
     #video-container {
       position: relative; 
       width: 100%; 
-      height: 100%; 
+      height: 100%; /* This will now correctly inherit 100dvh */
       background: #111;
     }
     #remote { width: 100%; height: 100%; object-fit: cover; }
@@ -222,6 +227,12 @@
 
   <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
   <script>
+    //
+    // ===> NO CHANGES TO JAVASCRIPT <===
+    //
+    // All the JavaScript logic is 100% correct.
+    //
+    
     const socket = io();
 
     // === 1. Get UI elements ===
@@ -383,14 +394,11 @@
       }
     });
     
-    //
-    // ===> INTHA FUNCTION THAAN UNGA FRIEND OD MESSAGE AH KAATUM <===
-    //
     socket.on("chat", ({ from, message }) => {
-      chatContainer.classList.remove("hidden"); // Message vantha chat ah kaatiru
+      chatContainer.classList.remove("hidden"); 
       const p = document.createElement("p");
       p.innerText = message;
-      p.className = "peer"; // Friend oda style
+      p.className = "peer"; 
       messagesList.appendChild(p);
       messagesList.scrollTop = messagesList.scrollHeight;
     });
@@ -445,25 +453,20 @@
     videoSelect.onchange = () => { switchMediaTrack('video', videoSelect.value); };
 
     // Chat handlers
-    toggleChatBtn.onclick = () => { // Control bar la irukura chat icon
+    toggleChatBtn.onclick = () => { 
       chatContainer.classList.toggle("hidden");
     };
-    chatCloseBtn.onclick = () => { // Chat box la irukura 'X' icon
+    chatCloseBtn.onclick = () => { 
       chatContainer.classList.add("hidden");
     };
 
-    //
-    // ===> INTHA FUNCTION THAAN UNGA MESSAGE AH SERVER KU ANUPUM <===
-    //
     function sendChatMessage() {
       const message = chatInput.value.trim();
       if (message === "") return; 
       chatContainer.classList.remove("hidden");
 
-      // 1. Server ku message ah anupum
       socket.emit("chat", { room: roomId, message: message });
       
-      // 2. Unga screen la 'Me' nu kaatum
       const p = document.createElement("p");
       p.innerText = message;
       p.className = "me"; 
