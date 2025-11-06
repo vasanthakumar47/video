@@ -259,8 +259,16 @@
     
     let pc, localStream, roomId;
     const iceServers = {
-      iceServers: [ { urls: "stun:stun.l.google.com:19302" } ]
-    };
+        iceServers: [
+          { urls: "stun:stun.l.google.com:19302" },
+          { urls: "stun:stun.openrelay.net:3478" },
+          { 
+            urls: "turn:turn.openrelay.net:3478",
+            username: "test",
+            credential: "123"
+          }
+        ]
+      };
 
     // === 2. Core WebRTC Functions ===
     
