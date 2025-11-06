@@ -32,7 +32,7 @@ def on_signal(data):
         emit("signal", {"from": request.sid, **data}, to=room, include_self=False)
 
 #
-# ===> INTHA FUNCTION ROMBA MUKKIYAM <===
+# ===> INTHA FUNCTION CHAT KU ROMBA MUKKIYAM <===
 #
 @socketio.on("chat")
 def on_chat(data):
