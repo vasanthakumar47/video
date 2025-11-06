@@ -12,116 +12,133 @@
       background: #222; 
       color: white; 
       overflow: hidden; 
+      width: 100vw;
+      height: 100vh;
     }
     
-    /* === 1. Join Area === */
-    #join-area {
-      display: flex; justify-content: center; align-items: center;
-      height: 100vh; flex-direction: column; gap: 15px;
-    }
-    #join-area input { padding: 10px 14px; font-size: 16px; border-radius: 8px; border: none; }
-    #join-area button { padding: 10px 14px; font-size: 16px; border-radius: 8px; border: none; background: #0a84ff; color: white; cursor: pointer; }
     .hidden { display: none !important; }
 
-    /* === 2. Call Area === */
+    #join-area {
+      display: flex; justify-content: center; align-items: center;
+      height: 100%; 
+      flex-direction: column; gap: 15px;
+      padding: 20px;
+      box-sizing: border-box; 
+    }
+    #join-area h2 { font-size: 24px; }
+    #join-area input { 
+      padding: 12px 16px; font-size: 16px; 
+      border-radius: 8px; border: none; width: 90%;
+    }
+    #join-area button { 
+      padding: 12px 16px; font-size: 16px; 
+      border-radius: 8px; border: none; 
+      background: #0a84ff; color: white; cursor: pointer; width: 90%;
+    }
+
     #video-container {
-      position: relative; width: 100vw; height: 100vh; background: #111;
+      position: relative; 
+      width: 100%; 
+      height: 100%; 
+      background: #111;
     }
     #remote { width: 100%; height: 100%; object-fit: cover; }
+    
     #local {
-      position: absolute; bottom: 20px; right: 20px;
-      width: 20%; max-width: 250px; aspect-ratio: 16/9;
-      border: 2px solid white; border-radius: 8px;
-      background: #333; cursor: grab; z-index: 10;
+      position: absolute; 
+      bottom: 100px; 
+      right: 15px;
+      width: 30%; 
+      max-width: 120px; 
+      aspect-ratio: 9/16; 
+      border: 2px solid white; 
+      border-radius: 8px;
+      background: #333; 
+      cursor: grab; 
+      z-index: 10;
+      object-fit: cover;
     }
     
-    /* === 3. Controls === */
     #controls-bar {
-      position: absolute; bottom: 30px; left: 50%;
-      transform: translateX(-50%); background: rgba(0, 0, 0, 0.5);
-      padding: 15px; border-radius: 20px; display: flex; gap: 20px; z-index: 20;
+      position: absolute; 
+      bottom: 20px; 
+      left: 50%;
+      transform: translateX(-50%); 
+      background: rgba(0, 0, 0, 0.5);
+      padding: 10px; 
+      border-radius: 20px; 
+      display: flex; 
+      gap: 10px; 
+      z-index: 20;
     }
     #controls-bar button {
-      font-size: 20px; background: rgba(255, 255, 255, 0.2);
+      font-size: 18px; 
+      background: rgba(255, 255, 255, 0.2);
       color: white; border: none; border-radius: 50%;
-      width: 50px; height: 50px; cursor: pointer;
+      width: 45px; 
+      height: 45px; 
+      cursor: pointer;
       display: flex; justify-content: center; align-items: center;
     }
     #controls-bar button.hang-up { background: #ff3b30; }
 
-    /* === 4. Settings Menu === */
     #settings-menu {
       position: absolute; top: 50%; left: 50%;
-      transform: translate(-50%, -50%); background: #333;
+      transform: translate(-50%, -50%); 
+      background: #333;
       padding: 20px; border-radius: 12px; z-index: 30;
       display: flex; flex-direction: column; gap: 15px;
+      width: 80%; 
     }
     #settings-menu h3 { margin: 0 0 10px 0; }
     #settings-menu label { font-size: 14px; }
     #settings-menu select { width: 100%; padding: 8px; border-radius: 6px; border: none; }
     #settings-menu button {
-      margin-top: 10px; padding: 8px 12px; border-radius: 6px; 
+      margin-top: 10px; padding: 10px 12px; 
+      border-radius: 6px; 
       border: none; background: #0a84ff; color: white; cursor: pointer;
     }
 
-    /* === 5. Chat Styles === */
     #chat-container {
       position: absolute;
-      top: 20px;
-      left: 20px;
-      width: 300px;
-      max-width: 40%;
-      max-height: 50%;
+      top: 15px; 
+      left: 50%;
+      transform: translateX(-50%);
+      width: 90%; 
+      max-width: 400px;
+      max-height: 40%; 
       background: rgba(0, 0, 0, 0.6);
       border-radius: 10px;
       display: flex;
-      flex-direction: column; /* Input on top, messages below */
+      flex-direction: column; 
       z-index: 15;
     }
     
     #chat-close-btn {
-      position: absolute;
-      top: 8px;
-      right: 8px;
-      background: none;
-      border: none;
-      color: #aaa;
-      cursor: pointer;
-      font-size: 16px;
-      padding: 0;
-      line-height: 1;
-      z-index: 5;
+      position: absolute; top: 8px; right: 8px;
+      background: none; border: none; color: #aaa;
+      cursor: pointer; font-size: 16px;
+      padding: 0; line-height: 1; z-index: 5;
     }
     
     #chat-input-area {
       display: flex;
       border-bottom: 1px solid #555; 
-      padding-right: 30px; /* Space for close button */
+      padding-right: 30px; 
     }
     #chat-input {
-      flex-grow: 1;
-      background: transparent;
-      border: none;
-      color: white;
-      padding: 12px;
-      outline: none;
+      flex-grow: 1; background: transparent; border: none;
+      color: white; padding: 12px; outline: none;
     }
     #chat-send-btn {
-      background: transparent;
-      border: none;
-      color: #0a84ff;
-      padding: 12px;
-      cursor: pointer;
-      font-size: 18px;
+      background: transparent; border: none; color: #0a84ff;
+      padding: 12px; cursor: pointer; font-size: 18px;
     }
 
     #messages-list {
-      flex-grow: 1;
-      padding: 15px;
-      overflow-y: auto; /* This makes it scrollable */
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
+      flex-grow: 1; padding: 15px;
+      overflow-y: auto; 
+      display: flex; flex-direction: column; gap: 10px;
     }
     #messages-list p {
       margin: 0; padding: 8px 12px; border-radius: 8px;
@@ -134,22 +151,26 @@
       background: #3e3e40; color: white; align-self: flex-start;
     }
 
-    /* === 6. Responsive for Phone === */
-    @media (max-width: 768px) {
+    /* Desktop/Tablet Fallback */
+    @media (min-width: 769px) {
       #local {
-        width: 35%; max-width: 150px; bottom: 80px; /* Make space for controls */ right: 15px;
+        bottom: 20px; right: 20px;
+        width: 20%; max-width: 250px;
+        aspect-ratio: 16/9; 
       }
       #controls-bar {
-        bottom: 15px; gap: 10px; padding: 10px;
+        bottom: 30px; gap: 20px; padding: 15px;
       }
       #controls-bar button {
-        width: 45px; height: 45px; font-size: 18px;
+        width: 50px; height: 50px; font-size: 20px;
       }
-      #settings-menu { width: 80%; }
-      
       #chat-container {
-        width: 90%; max-width: none; left: 50%;
-        transform: translateX(-50%); top: 15px; max-height: 40%;
+        width: 300px; max-width: 40%;
+        left: 20px; top: 20px;
+        transform: none; 
+      }
+      #settings-menu {
+        width: auto; 
       }
     }
   </style>
@@ -166,24 +187,20 @@
     <video id="remote" autoplay playsinline></video>
     <video id="local" autoplay playsinline muted></video>
 
-    <div id="chat-container" class="hidden"> <button id="chat-close-btn"><i class="bi bi-x-lg"></i></button>
-
+    <div id="chat-container" class="hidden">       
+      <button id="chat-close-btn"><i class="bi bi-x-lg"></i></button>
       <div id="chat-input-area">
         <input id="chat-input" placeholder="Type a message..." />
         <button id="chat-send-btn"><i class="bi bi-send-fill"></i></button>
       </div>
-
       <div id="messages-list">
         </div>
     </div>
 
-
     <div id="controls-bar">
       <button id="toggle-mic"><i class="bi bi-mic-fill"></i></button>
       <button id="toggle-cam"><i class="bi bi-camera-video-fill"></i></button>
-      
       <button id="toggle-chat-btn"><i class="bi bi-chat-dots-fill"></i></button>
-      
       <button id="settings-btn"><i class="bi bi-gear-fill"></i></button>
       <button id="hang-up" class="hang-up"><i class="bi bi-telephone-fill"></i></button>
     </div>
@@ -222,8 +239,6 @@
     const audioSelect = document.getElementById("audio-devices");
     const videoSelect = document.getElementById("video-devices");
     const settingsCloseBtn = document.getElementById("settings-close-btn");
-
-    // Chat elements
     const chatContainer = document.getElementById("chat-container"); 
     const messagesList = document.getElementById("messages-list");
     const chatInput = document.getElementById("chat-input");
@@ -233,9 +248,7 @@
     
     let pc, localStream, roomId;
     const iceServers = {
-      iceServers: [
-        { urls: "stun:stun.l.google.com:19302" },
-      ]
+      iceServers: [ { urls: "stun:stun.l.google.com:19302" } ]
     };
 
     // === 2. Core WebRTC Functions ===
@@ -332,7 +345,7 @@
         localStream = null;
       }
       messagesList.innerHTML = "";
-      chatContainer.classList.add("hidden"); // Hide chat on hangup
+      chatContainer.classList.add("hidden"); 
     }
 
     // === 3. SocketIO Listeners ===
@@ -370,11 +383,14 @@
       }
     });
     
+    //
+    // ===> INTHA FUNCTION THAAN UNGA FRIEND OD MESSAGE AH KAATUM <===
+    //
     socket.on("chat", ({ from, message }) => {
-      chatContainer.classList.remove("hidden");
+      chatContainer.classList.remove("hidden"); // Message vantha chat ah kaatiru
       const p = document.createElement("p");
       p.innerText = message;
-      p.className = "peer"; 
+      p.className = "peer"; // Friend oda style
       messagesList.appendChild(p);
       messagesList.scrollTop = messagesList.scrollHeight;
     });
@@ -429,18 +445,25 @@
     videoSelect.onchange = () => { switchMediaTrack('video', videoSelect.value); };
 
     // Chat handlers
-    toggleChatBtn.onclick = () => {
+    toggleChatBtn.onclick = () => { // Control bar la irukura chat icon
       chatContainer.classList.toggle("hidden");
     };
-    chatCloseBtn.onclick = () => {
+    chatCloseBtn.onclick = () => { // Chat box la irukura 'X' icon
       chatContainer.classList.add("hidden");
     };
 
+    //
+    // ===> INTHA FUNCTION THAAN UNGA MESSAGE AH SERVER KU ANUPUM <===
+    //
     function sendChatMessage() {
       const message = chatInput.value.trim();
       if (message === "") return; 
       chatContainer.classList.remove("hidden");
+
+      // 1. Server ku message ah anupum
       socket.emit("chat", { room: roomId, message: message });
+      
+      // 2. Unga screen la 'Me' nu kaatum
       const p = document.createElement("p");
       p.innerText = message;
       p.className = "me"; 
